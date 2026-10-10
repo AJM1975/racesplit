@@ -21,3 +21,4 @@ html[data-design=refresh] .back{background:var(--orange);color:#101722;min-heigh
 
 @media(prefers-color-scheme:dark){html[data-design=refresh][data-race-mode=on][data-theme=auto]{--bg:#000;--surface:#000;--well:#101722;--text:#fff;--muted:#E2E6EB;--line:#9AA3AD;--accent:#FF8B55;--button:#2A2F36;--buttonText:#fff}}
 
+.visually-hidden{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip-path:inset(50%)!important;white-space:nowrap!important;border:0!important}
