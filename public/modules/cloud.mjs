@@ -15,10 +15,13 @@ export function startCloud(bridge){
  const editor=(id=null)=>{editingAthleteId=id;$('profileEditor').hidden=false;$('showAddProfile').hidden=true;$('profileName').value=athletes.find(a=>a.id===id)?.name||'';$('addProfile').hidden=!!id;$('renameProfile').hidden=!id;$('deleteProfile').hidden=!id;$('profileName').focus();};
  const closeEditor=()=>{editingAthleteId=null;$('profileEditor').hidden=true;$('showAddProfile').hidden=false;$('profileName').value='';};
  const profile=$('accountPanel');
+ // Safari can retain :focus-visible when a dialog restores focus after touch.
+ document.addEventListener('pointerdown',()=>{document.documentElement.dataset.inputMode='pointer';},{capture:true,passive:true});
+ document.addEventListener('keydown',()=>{document.documentElement.dataset.inputMode='keyboard';},true);
  const openProfile=()=>{if(!profile.open)profile.showModal();$('accountMenu').open=false;};
  $('accountSummary').onclick=e=>{e.preventDefault();openProfile();};
  $('closeProfile').onclick=()=>profile.close();
- profile.addEventListener('close',()=>{$('accountSummary').focus();});
+ profile.addEventListener('close',()=>{$('accountSummary').focus({preventScroll:true});});
  $('showAddProfile').onclick=()=>editor();
  $('cancelProfileEdit').onclick=closeEditor;
  async function api(path,options={}){const response=await fetch(path,{credentials:'same-origin',...options,headers:{'Content-Type':'application/json',...(user?{'X-RaceSplit-Account':user.id}:{}),...options.headers}});const body=await response.json();if(!response.ok){const e=new Error(body.error||'Request failed');e.status=response.status;throw e;}return body;}
