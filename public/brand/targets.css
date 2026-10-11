@@ -17,3 +17,5 @@ html[data-design=refresh] dialog.profile-dialog{width:min(480px,calc(100vw - 24p
 #undoBtn{display:inline-flex;align-items:center;justify-content:center;gap:8px}#undoBtn svg{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
 html[data-input-mode=pointer] #accountSummary:focus-visible{outline:none}html[data-input-mode=keyboard] #accountSummary:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+
+.time-entry{display:grid;grid-template-columns:minmax(0,1fr) 44px;align-items:stretch;gap:4px}.time-entry input{min-width:0;height:100%;font-variant-numeric:tabular-nums}.time-stepper{display:grid;grid-template-rows:1fr 1fr;gap:2px}#targetsDialog .time-stepper button{display:flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;padding:4px;border-radius:8px}.time-stepper svg{flex:none}.target-row{grid-template-columns:minmax(0,1fr) 160px 160px}@media(max-width:600px){.target-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.time-entry{gap:3px}.target-row .time-entry input{padding:8px 6px;font-size:16px}}
