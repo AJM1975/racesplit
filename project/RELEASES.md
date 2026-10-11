@@ -2,6 +2,14 @@
 
 ## Branding, mobile race UI and cloud accounts — 11 October 2026
 
+### Production usability follow-up
+
+- Aligned desktop setup fields and controls, including the signed-in athlete selector.
+- Simplified athlete setup: explicit Add when empty, name + Change for one athlete, selector + Add athlete for multiple athletes.
+- Adding saves and selects the athlete; matching names reuse existing profiles. Cancel and failed requests preserve selection, and active timing locks athlete changes.
+- Remembers the last selected athlete per account on the device; Profile retains rename/delete management and signed-out timing remains available.
+- Validation: 66 automated tests passed, including seven new athlete setup tests.
+
 Deployed to https://racesplit.app on Cloudflare Workers with a separate production D1 database.
 
 - Added angular RS branding, app icons, electric orange palette and automatic light/dark appearance.
