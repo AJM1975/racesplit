@@ -63,3 +63,12 @@ This file records important product and architecture decisions so they do not ha
 **Decision:** Primary brand/domain is **RaceSplit** at **racesplit.app**.
 
 **Reason:** The name clearly describes split timing while remaining broad enough for multiple event formats.
+
+
+## 2026-10-10 — Staging authentication and cloud synchronisation
+
+Accounts are optional for timing. Email accounts require verification; Google uses PKCE and browser-bound state. Sessions use server-revocable HttpOnly cookies. Existing password and Google identities are never automatically linked by matching email.
+
+Only explicitly owned races upload automatically. Anonymous device history requires explicit confirmation before account association. Race mutations carry a stable operation ID and expected revision; conflicts retain both copies rather than silently overwriting. Deleted races use tombstones and revision checks.
+
+Production remains unchanged pending provider, D1 and physical iPhone validation.

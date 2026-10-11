@@ -1,0 +1,24 @@
+{
+  "name": "racesplit-staging",
+  "compatibility_date": "2026-10-10",
+  "main": "src/worker.mjs",
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": [
+      "/api/*"
+    ]
+  },
+  "vars": {
+    "ENVIRONMENT": "staging",
+    "GOOGLE_CLIENT_ID": "869109088224-b6plpipblfqk02l4p7anmrdkr1u7ead6.apps.googleusercontent.com"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "racesplit-staging-db",
+      "database_id": "6ace585f-7f40-419d-9e89-98447129da0d",
+      "migrations_dir": "migrations"
+    }
+  ]
+}

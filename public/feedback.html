@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0c1320">
+<link id="favicon" rel="icon" href="/brand/rs.svg" type="image/svg+xml"><script src="/brand/appearance.js"></script><title>Feedback · RaceSplit</title>
+<style>
+:root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#f2f6fb;background:#0c1320}*{box-sizing:border-box}body{margin:0;background:#0c1320}main{max-width:700px;margin:auto;padding:16px 14px 70px}.top{display:flex;justify-content:space-between;align-items:center;gap:10px}.brand{font-weight:950;letter-spacing:.04em;font-size:21px}.brand b{color:#66e1a5}.muted,.hint{color:#9aabc0;font-size:13px}.panel{background:#162235;border:1px solid #304057;border-radius:18px;padding:17px;margin-top:14px}.setup{display:grid;grid-template-columns:1fr 1fr;gap:10px}label{font-size:12px;color:#b7c8dc;display:block;margin:0 0 5px}input,select,textarea{background:#0d1727;color:white;border:1px solid #4b5c73;border-radius:10px;padding:11px;font:inherit;width:100%}textarea{min-height:160px;resize:vertical}.buttons{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}button,.back{border:0;border-radius:12px;padding:12px 14px;font-size:14px;font-weight:800;cursor:pointer;color:#071a13;background:#65e0a3;text-decoration:none;display:inline-block}button:disabled{opacity:.38}h1{font-size:24px;margin:0 0 8px}.foot{margin-top:17px;color:#91a6be;font-size:12px}@media(max-width:500px){.setup{grid-template-columns:1fr}}
+</style><link rel="stylesheet" href="/brand/refresh.css">
+</head>
+<body><main>
+<header class="top"><div><div class="brand">RACE<b>SPLIT</b></div><div class="muted">Feedback</div></div><a class="back" href="index.html">← Timer</a></header>
+<section class="panel">
+<h1>Help improve RaceSplit</h1>
+<p class="hint">Found a bug or have an idea? Send it directly to the RaceSplit development team.</p>
+<form id="raceFeedback">
+<div class="setup">
+<div><label for="fbType">Feedback type</label><select id="fbType"><option>Bug</option><option>Idea</option><option>Enhancement</option><option>Other</option></select></div>
+<div><label for="fbContact">Email (optional, for follow-up)</label><input id="fbContact" type="email" maxlength="200"></div>
+</div>
+<label for="fbTitle" style="margin-top:12px">Summary</label><input id="fbTitle" required maxlength="200">
+<label for="fbBody" style="margin-top:12px">Details</label><textarea id="fbBody" required maxlength="10000" placeholder="What happened, or what would you like to see? For bugs, include the steps to reproduce."></textarea>
+<input id="fbWebsite" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none">
+<div class="buttons"><button id="fbSend" type="submit">Send feedback</button></div>
+<p id="fbMessage" class="hint" role="status"></p>
+<p class="hint">Your message and optional email are shared with the RaceSplit development team.</p>
+</form>
+</section>
+<p class="foot">RaceSplit · Feedback goes directly to the RaceSplit Project Hub Inbox.</p>
+</main>
+<script>
+const ENDPOINT='https://racesplit-feedback.sweetaz.chatgpt.site/feedback';
+const QUEUE='racesplit-feedback-outbox-v1';
+function readQueue(){try{return JSON.parse(localStorage.getItem(QUEUE)||'[]')}catch{return []}}
+function writeQueue(items){localStorage.setItem(QUEUE,JSON.stringify(items))}
+async function flushFeedback(){if(!navigator.onLine)return false;const queue=readQueue();let delivered=0;for(const item of queue){try{const r=await fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(item.payload)});if(!r.ok)break;delivered++}catch{break}}if(delivered)writeQueue(queue.slice(delivered));return readQueue().length===0}
+window.addEventListener('online',()=>flushFeedback().catch(()=>{}));
+flushFeedback().catch(()=>{});
+document.getElementById('raceFeedback').addEventListener('submit',async function(e){
+e.preventDefault();const g=id=>document.getElementById(id),button=g('fbSend');button.disabled=true;
+const payload={type:g('fbType').value,title:g('fbTitle').value,body:g('fbBody').value,contact:g('fbContact').value,website:g('fbWebsite').value,page:location.origin+location.pathname};
+try{const queue=readQueue();queue.push({id:crypto.randomUUID(),payload,queuedAt:new Date().toISOString()});writeQueue(queue);this.reset();g('fbMessage').textContent='Feedback saved on this device. Sending when online…';if(await flushFeedback())g('fbMessage').textContent='Thanks! Your feedback was sent.';else g('fbMessage').textContent='Feedback queued on this device; it will retry when this page is opened online.'}
+catch(err){g('fbMessage').textContent='Unable to save feedback on this device. Please copy your message and try again.'}
+finally{button.disabled=false}
+});
+</script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token":"30dcd5856cfe4107956feb579e9c9361"}'></script><!-- End Cloudflare Web Analytics -->
+</body></html>

@@ -1,0 +1,30 @@
+{
+  "name": "RaceSplit \u2014 Multi-Event Timer",
+  "short_name": "RaceSplit",
+  "description": "Offline-first race and multi-event timing",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#101722",
+  "theme_color": "#101722",
+  "icons": [
+    {
+      "src": "/brand/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/brand/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/brand/rs.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

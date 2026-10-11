@@ -1,6 +1,12 @@
 # RaceSplit Architecture
 
-## Current architecture
+## Staging platform (2026-10-10)
+
+Branch `feature/cloudflare-platform-foundation` uses a Cloudflare Worker for static PWA assets and cookie-authenticated APIs backed by staging D1. Authentication, athlete management and sync implementation and verification limits are recorded in [SPRINT-AUTH-SYNC.md](SPRINT-AUTH-SYNC.md).
+
+The timer and device history work independently of authentication. LocalStorage remains the primary immediate snapshot, IndexedDB supplies recovery, and a persistent per-account outbox sends race snapshots with mutation IDs and expected revisions. OAuth and verification credentials remain server-side. Production is unchanged.
+
+## Current production architecture
 
 RaceSplit is currently a single-page browser application hosted on GitHub Pages.
 
