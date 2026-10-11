@@ -4,7 +4,7 @@ Approved by the user after staging review. Release deployment remains pending un
 
 ## Isolated resources
 
-- Production Worker: `racesplit-production`.
+- Production Worker: `racesplit` (the name selected in Cloudflare).
 - Production database: `racesplit-production-db`, ID `cf255b61-1bca-430b-8212-1cc3ccf11c0c` (created by the user).
 - Production configuration: `wrangler.production.jsonc`.
 - Staging configuration and database remain separate in `wrangler.jsonc`.

@@ -1,5 +1,7 @@
 {
-  "name": "racesplit-production",
+  "name": "racesplit",
+  "workers_dev": true,
+  "preview_urls": false,
   "compatibility_date": "2026-10-10",
   "main": "src/worker.mjs",
   "assets": {
