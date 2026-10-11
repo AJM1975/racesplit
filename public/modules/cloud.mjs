@@ -12,8 +12,8 @@ export function startCloud(bridge){
  const persist=()=>localStorage.setItem(queueKey(),JSON.stringify(queue));
  const say=text=>{$('cloudStatus').textContent=text;$('accountMenu').dataset.sync=!navigator.onLine?'offline':/pending|unavailable|again|rejected|Conflict/i.test(text)?'pending':busy?'syncing':'synced';$('accountSummary').title=text;};
  const updateImports=()=>{const count=bridge.getHistory().filter(r=>!r.ownerId).length;$('importDevice').hidden=!user||!count;$('importDevice').textContent='Upload '+count+' device race'+(count===1?'':'s');};
- const editor=(id=null)=>{editingAthleteId=id;$('profileEditor').hidden=false;$('profileName').value=athletes.find(a=>a.id===id)?.name||'';$('addProfile').hidden=!!id;$('renameProfile').hidden=!id;$('deleteProfile').hidden=!id;$('profileName').focus();};
- const closeEditor=()=>{editingAthleteId=null;$('profileEditor').hidden=true;$('profileName').value='';};
+ const editor=(id=null)=>{editingAthleteId=id;$('profileEditor').hidden=false;$('showAddProfile').hidden=true;$('profileName').value=athletes.find(a=>a.id===id)?.name||'';$('addProfile').hidden=!!id;$('renameProfile').hidden=!id;$('deleteProfile').hidden=!id;$('profileName').focus();};
+ const closeEditor=()=>{editingAthleteId=null;$('profileEditor').hidden=true;$('showAddProfile').hidden=false;$('profileName').value='';};
  const profile=$('accountPanel');
  const openProfile=()=>{if(!profile.open)profile.showModal();$('accountMenu').open=false;};
  $('accountSummary').onclick=e=>{e.preventDefault();openProfile();};
