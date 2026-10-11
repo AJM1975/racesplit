@@ -6,6 +6,7 @@
     "test": "node --test tests/*.test.mjs",
     "dev": "wrangler dev",
     "deploy:staging": "wrangler d1 migrations apply racesplit-staging-db --remote && wrangler deploy",
+    "deploy:production": "wrangler d1 migrations apply racesplit-production-db --remote --config wrangler.production.jsonc && wrangler deploy --config wrangler.production.jsonc",
     "check": "node --check src/auth.mjs && node --check src/data-api.mjs && node --check src/worker.mjs && node --check public/modules/cloud.mjs"
   },
   "devDependencies": {

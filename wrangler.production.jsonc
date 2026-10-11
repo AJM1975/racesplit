@@ -1,0 +1,21 @@
+{
+  "name": "racesplit-production",
+  "compatibility_date": "2026-10-10",
+  "main": "src/worker.mjs",
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"]
+  },
+  "vars": {
+    "ENVIRONMENT": "production",
+    "GOOGLE_CLIENT_ID": "869109088224-b6plpipblfqk02l4p7anmrdkr1u7ead6.apps.googleusercontent.com",
+    "RESEND_FROM_EMAIL": "accounts@racesplit.app"
+  },
+  "d1_databases": [{
+    "binding": "DB",
+    "database_name": "racesplit-production-db",
+    "database_id": "cf255b61-1bca-430b-8212-1cc3ccf11c0c",
+    "migrations_dir": "migrations"
+  }]
+}
