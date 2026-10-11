@@ -28,5 +28,6 @@ html[data-input-mode=pointer] #accountSummary:focus-visible{outline:none}html[da
 
 /* Saved athletes need only one control; explicit Add prevents accidental profiles. */
 .selected-athlete{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:48px;padding:4px 6px 4px 12px;border:1px solid var(--line);border-radius:10px;background:var(--well)}.selected-athlete strong{min-width:0;overflow-wrap:anywhere;font-size:16px}.selected-athlete button{flex:none;min-height:44px;padding:8px 10px;font-size:13px}.setup-athlete-editor input{width:100%;min-width:0}.setup-athlete-actions{display:flex;gap:8px;margin-top:8px}.setup-athlete-actions button{flex:1;min-height:44px;padding:8px 10px;font-size:13px}.setup-athlete-editor+p{margin:8px 0 0;line-height:1.4}#setupPanel .setup>div{min-width:0}
+.duplicate-athlete-choice{margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--well)}.duplicate-athlete-choice p{margin:0 0 10px;line-height:1.4;font-size:14px}.duplicate-athlete-choice .setup-athlete-actions{flex-wrap:wrap}.duplicate-athlete-choice button{white-space:normal;overflow-wrap:anywhere;min-width:100px}.duplicate-athlete-choice select{margin-bottom:8px}
 /* Custom names remain separate from the signed-in athlete selector. */
 #profileSelect:not([hidden]) + #athlete:not([hidden]){margin-top:8px}

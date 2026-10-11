@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {JSDOM} from 'jsdom';
-import {athleteSetupModel,matchingAthlete} from '../public/modules/cloud.mjs';
+import {athleteSetupModel,matchingAthlete,athleteLabel} from '../public/modules/cloud.mjs';
 const html=readFileSync(new URL('../public/index.html',import.meta.url),'utf8');
 const source=readFileSync(new URL('../public/modules/cloud.mjs',import.meta.url),'utf8').replace(/^import .*\n/,'').replace(/export /g,'');
 const settle=()=>new Promise(r=>setTimeout(r,25));
@@ -32,9 +32,19 @@ test('first athlete explicitly saves and selects, with repeat clicks guarded',as
 test('one athlete shows Change; adding can cancel without changing selection',async()=>{
  const d=await page([{id:'a',name:'Emma'}]),w=d.window,doc=w.document;assert.equal(w.fixtureId,'a');doc.querySelector('.selected-athlete button').click();const select=doc.getElementById('profileSelect');assert.equal(select.hidden,false);select.value='__add__';select.dispatchEvent(new w.Event('change'));assert.equal(doc.querySelector('.setup-athlete-editor').hidden,false);doc.querySelectorAll('.setup-athlete-actions button')[1].click();assert.equal(w.fixtureId,'a');assert.equal(doc.querySelector('.selected-athlete').hidden,false);w.close();
 });
-test('multiple athletes remember selection and reuse duplicate names',async()=>{
- const d=await page([{id:'a',name:'Emma'},{id:'b',name:'Az'}],{remembered:'b'}),w=d.window,doc=w.document,select=doc.getElementById('profileSelect');assert.equal(w.fixtureId,'b');assert.equal(select.hidden,false);select.value='__add__';select.dispatchEvent(new w.Event('change'));const input=doc.getElementById('setupAthleteName');input.value=' emma ';input.dispatchEvent(new w.Event('input'));doc.querySelector('.setup-athlete-actions button').click();await settle();assert.equal(w.posts.length,0);assert.equal(w.fixtureId,'a');assert.equal(w.localStorage.getItem('racesplit-athlete:u'),'a');w.close();
+test('multiple athletes remember selection and explicitly reuse duplicate names',async()=>{
+ const d=await page([{id:'a',name:'Emma'},{id:'b',name:'Az'}],{remembered:'b'}),w=d.window,doc=w.document,select=doc.getElementById('profileSelect');assert.equal(w.fixtureId,'b');assert.equal(select.hidden,false);select.value='__add__';select.dispatchEvent(new w.Event('change'));const input=doc.getElementById('setupAthleteName');input.value=' emma ';input.dispatchEvent(new w.Event('input'));doc.querySelector('.setup-athlete-actions button').click();await settle();assert.equal(w.fixtureId,'b');assert.equal(w.posts.length,0);doc.querySelector('.duplicate-athlete-choice button').click();await settle();assert.equal(w.posts.length,0);assert.equal(w.fixtureId,'a');assert.equal(w.localStorage.getItem('racesplit-athlete:u'),'a');w.close();
 });
+test('confirmed duplicate creates a distinct athlete and selects it',async()=>{
+ const d=await page([{id:'a',name:'Emma'}]),w=d.window,doc=w.document;doc.querySelector('.selected-athlete button').click();const select=doc.getElementById('profileSelect');select.value='__add__';select.dispatchEvent(new w.Event('change'));const input=doc.getElementById('setupAthleteName');input.value='Emma';input.dispatchEvent(new w.Event('input'));doc.querySelector('.setup-athlete-actions button').click();await settle();doc.querySelectorAll('.duplicate-athlete-choice button')[1].click();await settle();assert.equal(w.posts.length,1);assert.notEqual(w.fixtureId,'a');assert.equal(w.fixtureName,'Emma');assert.equal(select.options[0].text,'Emma (1)');assert.equal(select.options[1].text,'Emma (2)');w.close();
+});
+test('duplicate Cancel keeps the existing selection and entered name',async()=>{
+ const d=await page([{id:'a',name:'Emma'}]),w=d.window,doc=w.document;doc.querySelector('.selected-athlete button').click();const select=doc.getElementById('profileSelect');select.value='__add__';select.dispatchEvent(new w.Event('change'));const input=doc.getElementById('setupAthleteName');input.value='Emma';input.dispatchEvent(new w.Event('input'));doc.querySelector('.setup-athlete-actions button').click();await settle();doc.querySelectorAll('.duplicate-athlete-choice button')[2].click();await settle();assert.equal(w.posts.length,0);assert.equal(w.fixtureId,'a');assert.equal(input.value,'Emma');assert.equal(input.disabled,false);w.close();
+});
+test('Profile offers the same duplicate choice',async()=>{
+ const d=await page([{id:'a',name:'Emma'}]),w=d.window,doc=w.document;doc.getElementById('showAddProfile').click();doc.getElementById('profileName').value='Emma';doc.getElementById('addProfile').click();await settle();assert.ok(doc.querySelector('#profileEditor .duplicate-athlete-choice'));doc.querySelectorAll('#profileEditor .duplicate-athlete-choice button')[1].click();await settle();assert.equal(w.posts.length,1);assert.notEqual(w.fixtureId,'a');assert.equal(doc.getElementById('profileEditor').hidden,true);w.close();
+});
+test('existing duplicate profiles can be distinguished without changing their names',()=>{const athletes=[{id:'a',name:'Emma'},{id:'b',name:'Emma'}];assert.equal(athleteLabel(athletes,athletes[0]),'Emma (1)');assert.equal(athleteLabel(athletes,athletes[1]),'Emma (2)');assert.equal(athletes[0].name,'Emma');});
 test('add failure retains entered name and allows retry',async()=>{
  const d=await page([],{failAdd:true}),w=d.window,doc=w.document,input=doc.getElementById('setupAthleteName');input.value='Emma';input.dispatchEvent(new w.Event('input'));doc.querySelector('.setup-athlete-actions button').click();await settle();assert.equal(w.fixtureId,null);assert.equal(input.value,'Emma');assert.equal(doc.querySelector('.setup-athlete-editor').hidden,false);assert.equal(doc.querySelector('.setup-athlete-actions button').disabled,false);assert.match(doc.querySelector('.setup-athlete-editor+p').textContent,/Try again/);w.close();
 });

@@ -6,9 +6,9 @@
 
 - Aligned desktop setup fields and controls, including the signed-in athlete selector.
 - Simplified athlete setup: explicit Add when empty, name + Change for one athlete, selector + Add athlete for multiple athletes.
-- Adding saves and selects the athlete; matching names reuse existing profiles. Cancel and failed requests preserve selection, and active timing locks athlete changes.
+- Adding saves and selects the athlete. Matching names now offer Use existing, Add another, or Cancel in Setup and Profile; duplicate names receive numbered display labels without changing saved names. Cancel and failed requests preserve selection, and active timing locks athlete changes.
 - Remembers the last selected athlete per account on the device; Profile retains rename/delete management and signed-out timing remains available.
-- Validation: 66 automated tests passed, including seven new athlete setup tests.
+- Validation: 70 automated tests passed, including athlete setup and explicit duplicate-choice tests.
 
 Deployed to https://racesplit.app on Cloudflare Workers with a separate production D1 database.
 
