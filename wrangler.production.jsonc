@@ -2,6 +2,7 @@
   "name": "racesplit",
   "workers_dev": true,
   "preview_urls": false,
+  "routes": [{ "pattern": "racesplit.app", "custom_domain": true }],
   "compatibility_date": "2026-10-10",
   "main": "src/worker.mjs",
   "assets": {

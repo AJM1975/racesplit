@@ -1,5 +1,18 @@
 # RaceSplit Release Notes
 
+## Branding, mobile race UI and cloud accounts — 11 October 2026
+
+Deployed to https://racesplit.app on Cloudflare Workers with a separate production D1 database.
+
+- Added angular RS branding, app icons, electric orange palette and automatic light/dark appearance.
+- Added compact mobile header, Profile, unified event/athlete/target setup and Race view with large timing controls.
+- Added editable Goal/PR split and accumulated targets, event starter estimates, bulk run targets, saved-race import and time steppers.
+- Improved transition counts for events without runs, split/total alignment and Undo icon.
+- Added Google and verified email accounts, multiple athletes and offline cloud sync.
+- Preserved offline timing, local results and feedback destination.
+
+Validation: 59 automated tests, checks and deployment dry runs passed; staging was user reviewed. Live production API health, database readiness, provider configuration, offline cache assets and www redirect passed. Real production sign-in and saved-race sync still require user verification.
+
 ## MVP — 4 October 2026
 
 ### Timing
@@ -38,11 +51,3 @@
 - Added `www` CNAME.
 - TLS/HTTPS provisioning initiated through GitHub Pages.
 
-## Next release
-
-Planned:
-- RaceSplit branding refresh.
-- Target splits.
-- Live ahead/behind target indicators.
-- Improved saved-template management.
-- PWA/offline support.

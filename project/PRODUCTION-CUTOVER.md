@@ -1,6 +1,6 @@
 # RaceSplit production release — 11 October 2026
 
-Approved by the user after staging review. Release deployment remains pending until the live domain is verified.
+Approved by the user after staging review. The production release is live at https://racesplit.app as of 11 October 2026. Canonical-domain health, database readiness, both enabled authentication providers and the v23 offline assets were verified after cutover. A real Google/email sign-in and saved-race sync check on the canonical production domain remains for the user.
 
 ## Isolated resources
 
@@ -18,7 +18,9 @@ Set `GOOGLE_CLIENT_SECRET` and `RESEND_API_KEY` as secrets on the production Wor
 
 Before domain cutover, verify `/api/health` reports production, `/api/storage/health` reports ready and `/api/auth/config` reports both providers enabled. Verify timing, offline shell, Google/email sign-in, athlete selection and saved-race sync. Retain the existing feedback destination and check it from the deployed feedback page.
 
-Attach `racesplit.app` only after these checks. The domain currently serves GitHub Pages; retain its prior route/DNS details for rollback. Keep the canonical live hostname the same so existing device localStorage remains accessible. A staging session is not a production session.
+The domain was onboarded to Cloudflare and attached to the production Worker. The production config tracks its custom domain. The existing `www` GitHub Pages record currently returns a redirect to the canonical domain; it remains in place. Email DNS records were preserved during onboarding. Keep the canonical live hostname the same so existing device localStorage remains accessible. A staging session is not a production session.
+
+Previous apex website DNS: A records `185.199.108.153`, `185.199.109.153`, `185.199.110.153` and `185.199.111.153`. Previous `www` CNAME: `ajm1975.github.io`. Rollback must preserve all email records.
 
 ## Release and rollback
 
